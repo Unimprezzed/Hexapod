@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Change your executable name to something creative!
-set(NAME pico-boilerplate) # <-- Name your project/executable here!
+set(NAME pico-hexapod) # <-- Name your project/executable here!
 
 include(pimoroni_pico_import.cmake)
 include(pico_sdk_import.cmake)
@@ -14,6 +14,11 @@ set(CMAKE_CXX_STANDARD 17)
 # Initialize the SDK
 pico_sdk_init()
 
+#Include custom datatypes 
+add_subdirectory(vecmath)
+#add_subdirectory(animlib)
+add_subdirectory(curvegen)
+
 # Add your source files
 add_executable(${NAME}
     main.cpp # <-- Add source files here!
@@ -21,17 +26,30 @@ add_executable(${NAME}
 
 # Include required libraries
 # This assumes `pimoroni-pico` is stored alongside your project
-include(common/pimoroni_i2c)
-include(common/pimoroni_bus)
-include(libraries/bitmap_fonts/bitmap_fonts)
-include(libraries/hershey_fonts/hershey_fonts)
-include(libraries/pico_explorer/pico_explorer)
+include(drivers/analog/analog)
+include(drivers/analogmux/analogmux)
+include(drivers/button/button)
+include(drivers/plasma/plasma)
+include(drivers/servo/servo)
+include(drivers/servo/servo_cluster)
+include(drivers/pwm/pwm)
+include(drivers/pwm/pwm_cluster)
+include(libraries/servo2040/servo2040)
+
 
 # Don't forget to link the libraries you need!
 target_link_libraries(${NAME}
-    pimoroni_i2c
-    pico_explorer # <-- List libraries here!
+    vecmath
+    pico_stdlib
+    servo2040
+    analogmux
+    analog
+    button
 )
+
+# enable usb output, disable uart output (so it doesn't confuse any connected servos)
+pico_enable_stdio_usb(${NAME} 1)
+pico_enable_stdio_uart(${NAME} 0)
 
 # create map/bin/hex file etc.
 pico_add_extra_outputs(${NAME})
@@ -46,3 +64,4 @@ install(FILES
 set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
 set(CPACK_GENERATOR "ZIP" "TGZ")
 include(CPack)
+
