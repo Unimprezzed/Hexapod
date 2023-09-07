@@ -14,10 +14,9 @@ set(CMAKE_CXX_STANDARD 17)
 # Initialize the SDK
 pico_sdk_init()
 
-#Include custom datatypes 
-add_subdirectory(vecmath) #Implemented in full
-#add_subdirectory(animlib) #NOT IMPLEMENTED YET!
-add_subdirectory(curvegen) #NOT FULLY IMPLEMENTED!
+#Include libraries
+add_subdirectory(lib) #Implemented in full
+
 
 # Add your source files
 add_executable(${NAME}
