@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Change your executable name to something creative!
-set(NAME pico-hexapod) # <-- Name your project/executable here!
+set(NAME pico-hexapod) 
 
 include(pimoroni_pico_import.cmake)
 include(pico_sdk_import.cmake)
@@ -15,9 +15,9 @@ set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 
 #Include custom datatypes 
-add_subdirectory(vecmath)
-#add_subdirectory(animlib)
-add_subdirectory(curvegen)
+add_subdirectory(vecmath) #Implemented in full
+#add_subdirectory(animlib) #NOT IMPLEMENTED YET!
+add_subdirectory(curvegen) #NOT FULLY IMPLEMENTED!
 
 # Add your source files
 add_executable(${NAME}
@@ -26,6 +26,7 @@ add_executable(${NAME}
 
 # Include required libraries
 # This assumes `pimoroni-pico` is stored alongside your project
+#Includes a work-around for weirdness in the original CMake project
 include(drivers/analog/analog)
 include(drivers/analogmux/analogmux)
 include(drivers/button/button)
